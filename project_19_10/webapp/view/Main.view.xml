@@ -1,0 +1,54 @@
+<mvc:View controllerName="project1910.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    
+    >
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <viz:Popover id="idPopover" />
+            <viz:VizFrame id="idLineChart" width="480px" height="300px"
+                vizType="bar"
+                uiConfig="{ 'applicationSet' : 'fiori' }"
+                vizProperties="{ 
+                    'title' : { 'visible' : true, 'text' : '차트 타이틀'},
+                    'legendGroup' : {
+                        'layout' : { 'position' : 'left' }
+                    },
+                    'plotArea' : {
+                        'drawingEffect' : 'glossy',
+                        'dataLabel' : { 'visible' : true, 'type' : 'value' },
+                        'colorPalette' : ['#C4B73B', '#747474']
+                    }
+                 }"
+                >
+                <viz:dataset>
+                    <viz.data:FlattenedDataset data="{view>/list}">
+                        <viz.data:dimensions> <!--x축(구분지어주는 그룹)-->
+                            <viz.data:DimensionDefinition name="이름" value="{view>name}" />
+                        </viz.data:dimensions>
+
+                        <viz.data:measures> <!--y축-->
+                            <viz.data:MeasureDefinition name="숫자" value="{view>rate}" />
+                            <viz.data:MeasureDefinition name="숫자2" value="{view>cost}"/>
+                        </viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+
+                <viz:feeds>
+                    <!-- uid에 들어갈 수 있는 값
+                        categoryAxis, valueAxis : line, colunm, stacked_bar
+                        color       , size      : pie, donut
+                    -->
+                    <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="이름" />
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="숫자" />
+                    <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="숫자2" />
+                </viz:feeds>
+            </viz:VizFrame>
+            <!-- Controller에서 생성 -->
+            <viz:VizFrame id="idColChart" vizType="column"/>
+        </content>
+    </Page>
+</mvc:View>

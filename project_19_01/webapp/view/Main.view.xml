@@ -1,0 +1,126 @@
+<View  controllerName="project1901.controller.Main"
+    xmlns="sap.ui.core.mvc" displayBlock="true"
+    xmlns:m="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    >
+    <m:Page id="page" title="{i18n>title}">
+        
+        <m:content>
+            <!-- <m:Button text="클릭"
+             type="Emphasized" />
+            <m:Button text="조회" /> -->
+            
+            <l:VerticalLayout id="test" width="250px" >
+				<m:Title id="idTitle" text="{test2>/title/subTitle}"	/>
+				<!-- binding="{test2>/title}" -->
+                <m:Input id = "idInput1" />
+                <m:Select id = "idSelect" width="100%" showSecondaryValues="true" items="{test2>/cal}">
+                    <m:items>
+                        <core:ListItem key="{test2>key}" text="{test2>text}" additionalText="{test2>key}"/>
+                        <!-- <core:ListItem key="minus" text="-" additionalText="minus"/>
+                        <core:ListItem key="multiply" text="*" additionalText="multiply"/>
+                        <core:ListItem key="divide" text="/" additionalText="divide"/> -->
+                    </m:items>
+                </m:Select>
+                <m:Input id = "idInput2" /> 
+                <m:Button width="100%" text = "계산" press="onCalc"/>
+
+            </l:VerticalLayout>
+            <!--sap.ui.table.Table-->
+            <t:Table
+				rows="{local>/history}"
+				selectionMode="MultiToggle"
+				paste="onPaste"
+				ariaLabelledBy="title">
+				
+				<t:columns>
+					<t:Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="Number1" />
+						<t:template>
+							<m:Text text="{local>num1}" wrapping="false" />
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="Center">
+						<m:Label width="100%" textAlign="Center" text="operator" />
+						<t:template>
+							<m:Text text="{local>oper}" wrapping="false" />
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="number2" />
+						<t:template>
+							<m:Text text="{local>num2}" wrapping="false" />
+						</t:template>
+					</t:Column>
+                    <t:Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="Result" />
+						<t:template>
+							<m:Text text="{local>result}" wrapping="false" />
+						</t:template>
+					</t:Column>
+					<t:Column hAlign="Center">
+						<m:Label width="100%" textAlign="Center" text="Status" />
+						<t:template>
+							<core:Icon
+							src="sap-icon://circle-task-2"
+							class="size1"
+							color="{
+								path : 'local>result',
+								formatter : '.fnColorFormat' }"
+							>
+							<!-- color="{= ${local>result} > 100 ? '#1DDB16' : '#FF0000'  }" visible="{= ${local>result} > 100}"> -->
+								<core:layoutData>
+									<m:FlexItemData growFactor="1" />
+								</core:layoutData>
+							</core:Icon>
+						</t:template>
+					</t:Column>
+				</t:columns>
+			</t:Table>
+            
+            <!--sap.m.table-->
+
+	<m:Table id="idProductsTable">
+
+        <m:headerToolbar>
+			<m:OverflowToolbar>
+				<m:content>
+					<m:Title text="sap.m.Table" level="H2"/>
+					<m:ToolbarSpacer />
+				</m:content>
+			</m:OverflowToolbar>
+		</m:headerToolbar>
+
+		<m:columns>
+			<m:Column width="12em">
+				<m:Text text="Price" />
+			</m:Column>
+			
+		</m:columns>
+		<m:items>
+			<m:ColumnListItem vAlign="Middle">
+				<m:cells>
+                    <m:Text text="{SupplierName}" />
+                </m:cells>
+			</m:ColumnListItem>
+		</m:items>
+	</m:Table>
+
+
+
+        </m:content>
+
+        <m:footer>
+            <!--Bar 타입을 가진 클래스를 적용할 수 있음-->
+            <m:Toolbar >
+                <m:ToolbarSpacer />
+                <m:Button text="보내기" press="onClick"/>
+            </m:Toolbar>
+        </m:footer>
+
+
+    </m:Page>
+
+</View>
