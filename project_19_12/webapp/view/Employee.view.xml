@@ -1,0 +1,111 @@
+<mvc:View controllerName="project1912.controller.Employee"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:cm="sap.suite.ui.commons"
+    xmlns:t="sap.ui.table"
+    xmlns:micro="sap.suite.ui.microchart"
+    >
+    <Page id="page" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+        <cm:ChartContainer
+                id="chartContainer"
+                showFullScreen="true"
+                title="Unit Chart">
+                <cm:content>
+                    <cm:ChartContainerContent icon="sap-icon://area-chart" >
+                        <cm:content>
+                            <viz:VizFrame id="idLineChart" width="800px" height="800px"
+                                vizType='donut'
+                                uiConfig="{ 'applicationSet' : 'fiori' }"
+                                vizProperties="{ 
+                                    'title' : { 'visible' : true, 'text' : '차트 타이틀'},
+                                    'legendGroup' : {
+                                        'layout' : { 'position' : 'right' }
+                                    },
+                                    'plotArea' : {
+                                        'dataLabel' : { 'visible' : true, 'type' : 'value' }
+                                    }
+                                }"
+                                >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset data="{employee>/employees}"  >
+                                        <viz.data:dimensions> 
+                                            <viz.data:DimensionDefinition name="employee Name" value="{employee>employeeName}" />
+                                        </viz.data:dimensions>
+
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition name="salary" value="{employee>salary}" />
+                                            <!-- <viz.data:MeasureDefinition name="Order" value="{UnitsOnOrder}" /> -->
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <!-- uid에 들어갈 수 있는 값
+                                        categoryAxis, valueAxis : line, colunm, stacked_bar
+                                        color       , size      : pie, donut
+                                    -->
+                                    <viz.feeds:FeedItem uid="size" type="Measure" values="salary" />
+                                    <viz.feeds:FeedItem uid="color" type="Dimension" values="employee Name" />
+                                </viz:feeds>
+                            </viz:VizFrame>
+  
+                        </cm:content>
+                    </cm:ChartContainerContent>
+
+                    <cm:ChartContainerContent 
+                        icon="sap-icon://table-view"
+                        title="Table">
+                        <cm:content>
+                            <t:Table
+                                rows="{employee>/employees}"
+                                ariaLabelledBy="title">
+                                <t:extension>
+                                    <OverflowToolbar >
+                                        <Title text="employees"/>
+                                    </OverflowToolbar>
+				                </t:extension>
+                                <t:columns>
+                                    <t:Column width="11rem">
+                                        <Label text="employee ID" />
+                                        <t:template>
+                                            <Text text="{employee>employeeID}"/>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="11rem">
+                                        <Label text="employeeName" />
+                                        <t:template>
+                                            <Text text="{employee>employeeName}"/>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="11rem">
+                                        <Label text="year" />
+                                        <t:template>
+                                            <Text text="{employee>year}"/>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="11rem">
+                                        <Label text="salary" />
+                                        <t:template>
+                                            <Text text="{employee>salary}"/>
+                                        </t:template>
+                                    </t:Column>
+                                    <t:Column width="11rem">
+                                        <Label text="salaryratio" />
+                                        <t:template>
+                                            <micro:RadialMicroChart 
+                                                size="S"
+                                                percentage="{=${employee>salary}/100 }" />
+                                        </t:template>
+                                    </t:Column>
+                                </t:columns>
+                            </t:Table>
+                        
+                        </cm:content>
+                    </cm:ChartContainerContent>
+                </cm:content>
+        </cm:ChartContainer >
+    </Page>
+</mvc:View>

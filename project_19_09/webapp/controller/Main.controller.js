@@ -21,9 +21,21 @@ sap.ui.define([
                 
                 
                 }
-                    this.getView().setModel(new JSONModel(oData), 'search');
+                this.getView().setModel(new JSONModel(oData), 'search');
+                //한 단계 뒤에 있는 컴포넌트에 접근해서, 라우터를 가져 온다.
+                this.oRouter = this.getOwnerComponent().getRouter(); //컨트롤러에 oRouter를 붙임, 전역변수처럼 쓰기 위해
+                this.oRouter.getRoute('RouteMain').attachPatternMatched(this._onPatternMatched, this);
+            },
+
+            _onPatternMatched: function (oEvent) {
+                //var oArgu = oEvent.getParameters().arguments; //arguments 조회하는 두 가지 방법, 아래와 동일
+                var oArgu = oEvent.getParameter('arguments');
+                console.log(oArgu);
 
             },
+    
+
+            
 
 
             onClosing: function (oEvent) {
@@ -119,7 +131,17 @@ sap.ui.define([
 
                 var oSelectData = this.getView().getModel().getProperty(sPath);
 
-                alert(oSelectData.ShippedDate);
+                // alert(oSelectData.OrderID);
+                this.oRouter.navTo('RouteDetail', {
+                    OrderID : oSelectData.OrderID
+                }, true); 
+                //.navTo('라우트객체이름', {파라미터 정보}, 라우터히스터리초기화)
+            },
+            
+
+
+
+
                 //Dialog호출
                 //local 이름의 JSONModel이 전역으로 사용할 수 있도록 생성되어있음
                 //local모델에 데이터를 담아 놓으면
@@ -128,18 +150,6 @@ sap.ui.define([
                 //주의) Fragment.load()를 통해서, 팝업 호출 시
                 // 해당 팝업에 모델 데이터를 띄우기 위해서는
                 // 호출된 Dialog에 .setModel(모델객체) 해줘야 함
-
-
-
-            },
-            
-
-            
-
-
-
-            
-
             OnValueHelpRequest: function () {
                 this.byId("CustomerID").open();
             },

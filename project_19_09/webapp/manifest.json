@@ -102,6 +102,13 @@
           "target": [
             "TargetMain"
           ]
+        },
+        {
+          "name": "RouteDetail",
+          "pattern": "detail/{OrderID}",
+          "target": [
+            "TargetDetail"
+          ]
         }
       ],
       "targets": {
@@ -111,8 +118,16 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
+        },
+        "TargetDetail": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewId": "Detail",
+          "viewName": "Detail"
         }
+  
       }
+
     },
     "rootView": {
       "viewName": "odata.project1909.view.App",
